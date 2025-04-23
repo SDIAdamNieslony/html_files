@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,IE=9,chrome=1"><meta name="generator" content="MATLAB 2023a"><title>Fatigue Calculation in MATLAB - the FCM Live Scripts collection</title><style type="text/css">.rtcContent { padding: 30px; } .S0 { margin: 2px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.S1 { margin: 15px 10px 5px 4px; padding: 0px; line-height: 28.8px; min-height: 0px; white-space: pre-wrap; color: rgb(192, 76, 11); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 24px; font-weight: 400; text-align: left;  }
+.S2 { margin-bottom: 20px; padding-bottom: 4px;  }
+.S3 { margin: 0px; padding: 10px 0px 10px 5px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 700; text-align: start;  }
+.S4 { margin: -1px 0px 0px; padding: 10px 0px 10px 7px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: start;  }
+.S5 { margin: 20px 10px 5px 4px; padding: 0px; line-height: 20px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 20px; font-weight: 700; text-align: left;  }
+.S6 { margin: 15px 10px 5px 4px; padding: 0px; line-height: 18px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 17px; font-weight: 700; text-align: left;  }</style></head><body><div class = rtcContent><div  class = 'S0'><span>This document is part of the MATLAB Live Scripts collection titled '</span><span style=' font-style: italic;'>Fatigue Calculation in MATLAB</span><span>', authored by Adam Niesłony.</span></div><div  class = 'S0'><span>© 2025 Adam Niesłony. All rights reserved.</span></div><h1  class = 'S1' id = 'T_7EC03A88' ><span>Fatigue Calculation in MATLAB - the FCM Live Scripts collection</span></h1><div  class = 'S2'><div  class = 'S3'><span style=' font-weight: bold;'>Table of Contents</span></div><div  class = 'S4'><a href = "#H_61C3050F"><span>Introduction
+</span></a><a href = "#H_7C8081D3"><span>1 Material Fatigue - Basics
+</span></a><span>    </span><a href = "#H_B3BCC50E"><span>1.1 SN Curve
+</span></a><span>    </span><a href = "#H_31F3F078"><span>1.2 Fatigue Strain Curves
+</span></a><span>    </span><a href = "#H_601076B3"><span>1.3 Relationship Between the Scale Effect and the Probability Distribution of Fatigue Life
+</span></a><a href = "#H_73ADBB2D"><span>2 Variable Amplitude and Random Loading
+</span></a><span>    </span><a href = "#H_BDFD0689"><span>2.1 Rainflow Counting and Damage Summation
+</span></a><span>    </span><a href = "#H_78235350"><span>2.2 Generation of Signals from Power Spectral Desity
+</span></a><a href = "#H_32CA09F0"><span>3 Multiaxial Fatigue
+</span></a><span>    </span><a href = "#H_3777572A"><span>3.1 Understanding Multiaxial Load and Stress State
+</span></a><span>    </span><a href = "#H_4ECF3144"><span>3.2 Stress invariants in multaixial fatigue
+</span></a><span>    </span><a href = "#H_E889DE86"><span>3.3 Critical Plane Fatigue Failure Criteria
+</span></a><span>    </span><a href = "#H_737A71DE"><span>3.4 von Mises Stress Criterion in Fatigue
+</span></a><span>    </span><a href = "#H_CA5E5052"><span>3.5 Matake
+</span></a><span>    </span><a href = "#H_C7A734D1"><span>3.6 Fatemi-Socie Criterion
+</span></a><span>    </span><a href = "#H_22CB9327"><span>3.7 SWT Criterion</span></a></div></div><h2  class = 'S5' id = 'H_61C3050F' ><span>Introduction</span></h2><div  class = 'S0'><span>With over 25 years of experience in the field of material fatigue, I am passionate about sharing my theoretical and practical knowledge in strength of materials, material testing, numerical calculations, and signal analysis. As an academic teacher and industry consultant, I have developed comprehensive educational materials and scripts on material fatigue. Most of them are typical presentations, but there are also MATLAB scripts that help me present computational algorithms. Hence the idea of creating a set of Live Scipts that contain theory and computational code. Using these, I am happy to conduct seminars to expand your knowledge and skills in this specialized field. Below you will find topics list that I offer in my knowledge-building seminars.</span></div><h2  class = 'S5' id = 'H_7C8081D3' ><span>1 Material Fatigue - Basics</span></h2><h3  class = 'S6' id = 'H_B3BCC50E' ><span>1.1 SN Curve</span></h3><div  class = 'S0'><a href = "./fcm_sn_curve.html"><span>Link to Live Script</span></a></div><div  class = 'S0'><span>Basic information about SN curve. Types, how to describe them, how to obtain material constants from experimental data. Methods for determining the number of cycles from the SN curve. Plotting the SN curve in MATLAB.</span></div><h3  class = 'S6' id = 'H_31F3F078' ><span>1.2 Fatigue Strain Curves</span></h3><div  class = 'S0'><a href = "./fcm_strain_curves.html"><span>Link to Live Script</span></a></div><div  class = 'S0'><span>Manson-Coffin-Basquin fatigue strain curve. Ramberg-Osgood stress strain curve. Estimation of strain curves from experimental data. Compability equations. Plotting the strain curves in MATLAB.</span></div><h3  class = 'S6' id = 'H_601076B3' ><span>1.3 Relationship Between the Scale Effect and the Probability Distribution of Fatigue Life</span></h3><div  class = 'S0'><a href = "./fcm_scale_effect_and_pdf_of_fatigue_life.html"><span>Link to Live Script</span></a></div><div  class = 'S0'><span>In fatigue of materials the concept of scale factor is known. It is commonly said that the larger the element, the faster the fatigue crack may appear. This phenomenon is described by the weakest link theory. This file presents, based on an example, the influence of scale factor on the shape of the probability distribution of durability.</span></div><h2  class = 'S5' id = 'H_73ADBB2D' ><span>2 Variable Amplitude and Random Loading</span></h2><h3  class = 'S6' id = 'H_BDFD0689' ><span>2.1 Rainflow Counting and Damage Summation</span></h3><div  class = 'S0'><a href = "./fcm_rainflow_and_damage_sum.html"><span>Link to Live Script</span></a></div><div  class = 'S0'><span>Description of the rainflow algorithm, how to use it in the MATLAB environment, determining the rainflow matrix using custom tools. Damage summation according Miner rule.</span></div><h3  class = 'S6' id = 'H_78235350' ><span>2.2 Generation of Signals from Power Spectral Desity</span></h3><div  class = 'S0'><a href = "./fcm_signal_generation.html"><span>Link to Life Script</span></a></div><div  class = 'S0'><span>Signal generation based on GWM using the fast Fourier transform algorithm. Generation of multiple channels with a given signal correlation.</span></div><h2  class = 'S5' id = 'H_32CA09F0' ><span>3 Multiaxial Fatigue</span></h2><div  class = 'S0'><span>In the case of multiaxial fatigue, it is important to understand the stress and strain history and to manipulate it effectively. The ability to recognize the type of multi-axial load is also important, i.e. when it is proportional or non-proportional and what parameters describe these quantities. </span></div><div  class = 'S0'><span>The most interesting are the multiaxial fatigue failure criteria, which have their limitations as well as advantages and disadvantages. Critical plane approaches, particularly Fatemi-Socie and SWT, dominate in practical applications due to their versatility and alignment with real-world conditions. Simple criteria like von Mises stress or Tresca are still used in initial design phases or when computational simplicity is prioritized. The choice in practice often depends on computational resources, material behavior, and the complexity of loading.</span></div><h3  class = 'S6' id = 'H_3777572A' ><span>3.1 Understanding Multiaxial Load and Stress State</span></h3><div  class = 'S0'><a href = "./fcm_multiaxial_load_and_stress.html"><span>Link to Live Script</span></a></div><div  class = 'S0'><span>Multiaxial loading and multiaxial stress states are distinct concepts that require careful distinction. This seminar examines the critical factors, including component geometry and dynamic properties, necessary for accurate fatigue analysis. We delve into the Finite Element Analysis (FEM) methodology of component analysis to examine how specific loading conditions affect the stress state. Participants will gain a clear understanding of how to define and calculate multiaxial fatigue factors.</span></div><div  class = 'S0'><span>Mastering this topic equips you with the tools to select the most appropriate multiaxial fatigue failure criteria, providing more accurate and reliable fatigue assessments.</span></div><h3  class = 'S6' id = 'H_4ECF3144' ><span>3.2 Stress invariants in multaixial fatigue</span></h3><div  class = 'S0'><a href = "./fcm_stress_invariants.html"><span>Link to Live Script</span></a></div><div  class = 'S0'><span>Understanding the concept of stress invariants is the main goal of this script. Learn the mathematical definitions of stress invariants and learn how to calculate stress invariants in MATLAB. See how they change over time on graphs. Learn which stress invariants are used for fatigue damage criteria.</span></div><h3  class = 'S6' id = 'H_E889DE86' ><span>3.3 Critical Plane Fatigue Failure Criteria</span></h3><div  class = 'S0'><a href = "./fcm_multiaxial_critical_plane.html"><span>Link to Live Script</span></a></div><div  class = 'S0'><span>How do I determine the critical plane mathematically and numerically? What is the best way to find the location of the critical plane? This script should explain the basic issues in this area.</span></div><h3  class = 'S6' id = 'H_737A71DE' ><span>3.4 von Mises Stress Criterion in Fatigue</span></h3><div  class = 'S0'><a href = "./fcm_multiaxial_von_mises.html"><span>Link to Live Script</span></a></div><div  class = 'S0'><span>Definition of the criterion in order to use it effectively for determining fatigue strength. Advantages and disadvantages of the criterion.</span></div><h3  class = 'S6' id = 'H_CA5E5052' ><span>3.5 Matake</span></h3><div  class = 'S0'><span></span></div><h3  class = 'S6' id = 'H_C7A734D1' ><span>3.6 Fatemi-Socie Criterion</span></h3><div  class = 'S0'><span></span></div><h3  class = 'S6' id = 'H_22CB9327' ><span>3.7 SWT Criterion</span></h3><div  class = 'S0'></div>
+<br>
+<!-- 
+##### SOURCE BEGIN #####
+%% 
+% This document is part of the MATLAB Live Scripts collection titled '_Fatigue 
+% Calculation in MATLAB_', authored by Adam Niesłony.
+% 
+% © 2025 Adam Niesłony. All rights reserved.
+%% Fatigue Calculation in MATLAB - the FCM Live Scripts collection
+%% Introduction
+% With over 25 years of experience in the field of material fatigue, I am passionate 
+% about sharing my theoretical and practical knowledge in strength of materials, 
+% material testing, numerical calculations, and signal analysis. As an academic 
+% teacher and industry consultant, I have developed comprehensive educational 
+% materials and scripts on material fatigue. Most of them are typical presentations, 
+% but there are also MATLAB scripts that help me present computational algorithms. 
+% Hence the idea of creating a set of Live Scipts that contain theory and computational 
+% code. Using these, I am happy to conduct seminars to expand your knowledge and 
+% skills in this specialized field. Below you will find topics list that I offer 
+% in my knowledge-building seminars.
+%% 1 Material Fatigue - Basics
+% 1.1 SN Curve
+% <./fcm_sn_curve.mlx Link to Live Script>
+% 
+% Basic information about SN curve. Types, how to describe them, how to obtain 
+% material constants from experimental data. Methods for determining the number 
+% of cycles from the SN curve. Plotting the SN curve in MATLAB.
+% 1.2 Fatigue Strain Curves
+% <./fcm_strain_curves.mlx Link to Live Script>
+% 
+% Manson-Coffin-Basquin fatigue strain curve. Ramberg-Osgood stress strain curve. 
+% Estimation of strain curves from experimental data. Compability equations. Plotting 
+% the strain curves in MATLAB.
+% 1.3 Relationship Between the Scale Effect and the Probability Distribution of Fatigue Life
+% <./fcm_scale_effect_and_pdf_of_fatigue_life.mlx Link to Live Script>
+% 
+% In fatigue of materials the concept of scale factor is known. It is commonly 
+% said that the larger the element, the faster the fatigue crack may appear. This 
+% phenomenon is described by the weakest link theory. This file presents, based 
+% on an example, the influence of scale factor on the shape of the probability 
+% distribution of durability.
+%% 2 Variable Amplitude and Random Loading
+% 2.1 Rainflow Counting and Damage Summation
+% <./fcm_rainflow_and_damage_sum.mlx Link to Live Script>
+% 
+% Description of the rainflow algorithm, how to use it in the MATLAB environment, 
+% determining the rainflow matrix using custom tools. Damage summation according 
+% Miner rule.
+% 2.2 Generation of Signals from Power Spectral Desity
+% <./fcm_signal_generation.mlx Link to Life Script>
+% 
+% Signal generation based on GWM using the fast Fourier transform algorithm. 
+% Generation of multiple channels with a given signal correlation.
+%% 3 Multiaxial Fatigue
+% In the case of multiaxial fatigue, it is important to understand the stress 
+% and strain history and to manipulate it effectively. The ability to recognize 
+% the type of multi-axial load is also important, i.e. when it is proportional 
+% or non-proportional and what parameters describe these quantities. 
+% 
+% The most interesting are the multiaxial fatigue failure criteria, which have 
+% their limitations as well as advantages and disadvantages. Critical plane approaches, 
+% particularly Fatemi-Socie and SWT, dominate in practical applications due to 
+% their versatility and alignment with real-world conditions. Simple criteria 
+% like von Mises stress or Tresca are still used in initial design phases or when 
+% computational simplicity is prioritized. The choice in practice often depends 
+% on computational resources, material behavior, and the complexity of loading.
+% 3.1 Understanding Multiaxial Load and Stress State
+% <./fcm_multiaxial_load_and_stress.mlx Link to Live Script>
+% 
+% Multiaxial loading and multiaxial stress states are distinct concepts that 
+% require careful distinction. This seminar examines the critical factors, including 
+% component geometry and dynamic properties, necessary for accurate fatigue analysis. 
+% We delve into the Finite Element Analysis (FEM) methodology of component analysis 
+% to examine how specific loading conditions affect the stress state. Participants 
+% will gain a clear understanding of how to define and calculate multiaxial fatigue 
+% factors.
+% 
+% Mastering this topic equips you with the tools to select the most appropriate 
+% multiaxial fatigue failure criteria, providing more accurate and reliable fatigue 
+% assessments.
+% 3.2 Stress invariants in multaixial fatigue
+% <./fcm_stress_invariants.mlx Link to Live Script>
+% 
+% Understanding the concept of stress invariants is the main goal of this script. 
+% Learn the mathematical definitions of stress invariants and learn how to calculate 
+% stress invariants in MATLAB. See how they change over time on graphs. Learn 
+% which stress invariants are used for fatigue damage criteria.
+% 3.3 Critical Plane Fatigue Failure Criteria
+% <./fcm_multiaxial_critical_plane.mlx Link to Live Script>
+% 
+% How do I determine the critical plane mathematically and numerically? What 
+% is the best way to find the location of the critical plane? This script should 
+% explain the basic issues in this area.
+% 3.4 von Mises Stress Criterion in Fatigue
+% <./fcm_multiaxial_von_mises.mlx Link to Live Script>
+% 
+% Definition of the criterion in order to use it effectively for determining 
+% fatigue strength. Advantages and disadvantages of the criterion.
+% 3.5 Matake
+% 
+% 3.6 Fatemi-Socie Criterion
+% 
+% 3.7 SWT Criterion
+%
+##### SOURCE END #####
+-->
+</div></body></html>
